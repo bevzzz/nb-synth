@@ -90,6 +90,9 @@ var _ render.CellRenderer = (*renderer)(nil)
 
 func (r *renderer) RegisterFuncs(reg render.RenderCellFuncRegistry) {
 	reg.Register(render.Pref{Type: schema.Code}, r.renderCode)
+	reg.Register(render.Pref{MimeType: "application/json"}, r.renderData)
+	reg.Register(render.Pref{MimeType: "text/xml"}, r.renderData)
+	reg.Register(render.Pref{MimeType: "application/*xml"}, r.renderData)
 }
 
 func (r *renderer) renderCode(w io.Writer, cell schema.Cell) error {
@@ -144,6 +147,37 @@ func (r *renderer) renderRaw(w io.Writer, c schema.Cell) error {
 	escaped := html.EscapeString(string(txt[:]))
 	w.Write([]byte(escaped))
 	io.WriteString(w, "</pre>")
+	return nil
+}
+
+// renderData renders outputs in text-based data formats like JSON or XML.
+func (r *renderer) renderData(w io.Writer, c schema.Cell) error {
+	jsonString := string(c.Text())
+	lexer := lexers.MatchMimeType(c.MimeType())
+	if lexer == nil {
+		return r.renderRaw(w, c)
+	}
+
+	if r.Coalesce {
+		lexer = chroma.Coalesce(lexer)
+	}
+
+	it, err := lexer.Tokenise(r.TokeniseOptions, jsonString)
+	if err != nil {
+		return r.renderRaw(w, c)
+	}
+
+	style := r.CustomStyle
+	if style == nil {
+		style = styles.Get(r.Style)
+	}
+
+	f := chromahtml.New(r.FormatOptions...)
+	_ = f.Format(w, style, it)
+
+	if r.CSSWriter != nil {
+		_ = f.WriteCSS(w, style)
+	}
 	return nil
 }
 

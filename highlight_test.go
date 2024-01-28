@@ -105,6 +105,35 @@ func TestHighlighting(t *testing.T) {
 			),
 			golden: "code_monokai",
 		},
+		{
+			name:         "display_data json",
+			code:         test.DisplayData(jsonOutput, "application/json"),
+			highlighting: synth.Highlighting,
+			golden:       "json",
+		},
+		{
+			name:         "execute_result json",
+			code:         test.ExecuteResult(jsonOutput, "application/json", 1),
+			highlighting: synth.Highlighting,
+			golden:       "json",
+		},
+		{
+			name:         "display_data text xml",
+			code:         test.DisplayData(xmlOutput, "text/xml"),
+			highlighting: synth.Highlighting,
+			golden:       "xml_output",
+		},
+		{
+			name:         "display_data application xml",
+			code:         test.DisplayData(xmlOutput, "application/xml"),
+			highlighting: synth.Highlighting,
+			golden:       "xml_output",
+		},
+		{
+			name:         "execute_result application/*+xml",
+			code:         test.ExecuteResult(xmlOutput, "application/atom+xml", 1),
+			highlighting: synth.Highlighting,
+			golden:       "xml_output",
 		},
 	} {
 		t.Run(tt.name, func(t *testing.T) {
@@ -154,6 +183,17 @@ def fibonacci(n):
 
 fibonacci(10)
 `
+	// Raw JSON output
+	jsonOutput = `{"name": "John", "age": 30, "car": null}`
+
+	// Raw XML output
+	xmlOutput = `<?xml version="1.0" encoding="UTF-8"?>
+<note>
+	<to>Tove</to>
+	<from>Jani</from>
+	<heading>Reminder</heading>
+	<body>Don't forget me this weekend!</body>
+</note>`
 )
 
 // cmpGolden compares the result of the test run with a golden file.

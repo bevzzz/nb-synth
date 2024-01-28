@@ -1,0 +1,7 @@
+<pre style="background-color:#fff;"><code><span style="display:flex;"><span><span style="color:#999;font-weight:bold;font-style:italic">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#000080">&lt;note&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000080">&lt;to&gt;</span>Tove<span style="color:#000080">&lt;/to&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000080">&lt;from&gt;</span>Jani<span style="color:#000080">&lt;/from&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000080">&lt;heading&gt;</span>Reminder<span style="color:#000080">&lt;/heading&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000080">&lt;body&gt;</span>Don&#39;t forget me this weekend!<span style="color:#000080">&lt;/body&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#000080">&lt;/note&gt;</span></span></span></code></pre>
